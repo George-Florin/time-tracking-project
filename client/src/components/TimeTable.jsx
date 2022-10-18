@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { DELETE_TIME } from "../mutations/timeMutations";
 import { GET_TIMES } from "../queries/timeQueries";
 import { GET_PROJECTS } from "../queries/projectQueries";
+import { GET_PROJECT } from "../queries/projectQueries";
 
 export default function TimeTable({ time, project }) {
   const [deleteTime] = useMutation(DELETE_TIME, {
@@ -17,14 +18,14 @@ export default function TimeTable({ time, project }) {
     }
   });
 
-  const { loading, error, data } = useQuery(GET_PROJECTS);
+  const { loading, error, data } = useQuery(GET_PROJECT);
 
-  if (loading) return <p>Loading</p>
-  if (error) return <p>Error</p>
+  if (loading) return <p>Loading</p>;
+  if (error) return <p>Error</p>;
 
   return (
     <tr>
-        <td>Project</td>
+        <td>{project.title}</td>
         <td>{time.activity}</td>
         <td>{time.duration} hours</td>
         <td>{time.date}</td>

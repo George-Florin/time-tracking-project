@@ -16,12 +16,6 @@ const GET_PROJECT = gql`
       id
       title
       description
-      time {
-        id
-        activity
-        date
-        duration
-      }
     }
   }
 `;
