@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Time = require("./Time");
 
 const ProjectSchema = new mongoose.Schema({
   title: {
@@ -6,6 +7,9 @@ const ProjectSchema = new mongoose.Schema({
   },
   description: {
     type: String,
+  },
+  times: {
+    type: { type: [Time.schema], required: true },
   },
 });
 

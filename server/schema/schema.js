@@ -17,6 +17,7 @@ const ProjectType = new GraphQLObjectType({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
     description: { type: GraphQLString },
+    times: { type: TimeType },
   }),
 });
 

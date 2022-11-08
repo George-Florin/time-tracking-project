@@ -1,5 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import AddTimeModal from '../components/AddTimeModal';
+import Times from '../components/Times';
 import EditProjectForm from '../components/EditProjectForm';
 import { useQuery } from '@apollo/client';
 import { GET_PROJECT } from '../queries/projectQueries';
@@ -15,6 +17,7 @@ export default function Project() {
     <>
       {!loading && !error && (
         <div className='mx-auto w-75 card p-5'>
+          <AddTimeModal />
           <Link to='/' className='btn btn-light btn-sm w-25 d-inline ms-auto'>
             Back
           </Link>
@@ -23,7 +26,7 @@ export default function Project() {
           <p>{data.project.description}</p>
 
           <EditProjectForm project={data.project} />
-
+          <Times />
         </div>
       )}
     </>

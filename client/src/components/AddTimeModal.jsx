@@ -13,7 +13,7 @@ export default function AddTimeModal() {
   const [duration, setDuration] = useState("");
 
   const [addTime] = useMutation(ADD_TIME, {
-    variables: { project, activity, date, duration },
+    variables: { activity, date, duration },
     update(cache, { data: { addTime }}) {
         const { times } = cache.readQuery({ query: GET_TIMES});
 
@@ -29,13 +29,12 @@ export default function AddTimeModal() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if(project === "" || activity === "" || date === "" || duration === "") {
+    if(activity === "" || date === "" || duration === "") {
         return alert("Please fill in all the fields");
     }
 
     addTime(activity, date, duration);
 
-    setProject("");
     setActivity("");
     setDate("");
     setDuration("");
@@ -46,7 +45,7 @@ export default function AddTimeModal() {
 
   return (
     <>
-    <button type="button" className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addTimeModal">
+    <button type="button" className="btn btn-secondary w-25" data-bs-toggle="modal" data-bs-target="#addTimeModal">
   <div className="d-flex align-items-center">
     <FaPlus className="icon" />
     <div>Add time</div>
@@ -62,20 +61,6 @@ export default function AddTimeModal() {
       </div>
       <div className="modal-body">
         <form onSubmit={onSubmit}>
-        <div className="mb-3">
-                <label className="form-label">Project</label>
-                <select 
-                id="project" 
-                className="form-select" 
-                value={project} 
-                onChange={(e) => setProject(e.target.value)}>
-                    <option value="">Select</option>
-                    { data.projects.map((project) => (
-                        <option key={project.id} value={project.id}>{project.title}</option>
-                    ) ) }
-                </select>
-            </div>
-
             <div className="mb-3">
                 <label className="form-label">Activity</label>
                 <input 
