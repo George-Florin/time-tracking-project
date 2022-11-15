@@ -3,25 +3,13 @@ const Time = require("../models/Time");
 
 const {
   GraphQLObjectType,
-  GraphQLID,
   GraphQLString,
   GraphQLSchema,
+  GraphQLID,
   GraphQLList,
   GraphQLNonNull,
 } = require("graphql");
 
-//Project Type
-const ProjectType = new GraphQLObjectType({
-  name: "Project",
-  fields: () => ({
-    id: { type: GraphQLID },
-    title: { type: GraphQLString },
-    description: { type: GraphQLString },
-    times: { type: TimeType },
-  }),
-});
-
-//Time Type
 const TimeType = new GraphQLObjectType({
   name: "Time",
   fields: () => ({
@@ -29,6 +17,27 @@ const TimeType = new GraphQLObjectType({
     activity: { type: GraphQLString },
     date: { type: GraphQLString },
     duration: { type: GraphQLString },
+    project: {
+      type: ProjectType,
+      resolve(parent, args) {
+        return Project.findById(parent.projectId);
+      },
+    },
+  }),
+});
+
+const ProjectType = new GraphQLObjectType({
+  name: "Project",
+  fields: () => ({
+    id: { type: GraphQLID },
+    title: { type: GraphQLString },
+    description: { type: GraphQLString },
+    times: {
+      type: new GraphQLList(TimeType),
+      resolve(parent, args) {
+        return Time.find({ projectId: parent.id });
+      },
+    },
   }),
 });
 
@@ -38,27 +47,27 @@ const RootQuery = new GraphQLObjectType({
     projects: {
       type: new GraphQLList(ProjectType),
       resolve(parent, args) {
-        return Project.find();
+        return Project.find({});
       },
-    },
-    project: {
-      type: ProjectType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        return Project.findById(args.id);
+      project: {
+        type: ProjectType,
+        args: { id: { type: GraphQLID } },
+        resolve(parent, args) {
+          return Project.findById(args.id);
+        },
       },
-    },
-    times: {
-      type: new GraphQLList(TimeType),
-      resolve(parent, args) {
-        return Time.find();
+      times: {
+        type: new GraphQLList(TimeType),
+        resolve(parent, args) {
+          return Time.find({ projectId });
+        },
       },
-    },
-    time: {
-      type: TimeType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        return Time.findById(args.id);
+      time: {
+        type: TimeType,
+        args: { id: { type: GraphQLID } },
+        resolve(parent, args) {
+          return Time.findById(args.projectId);
+        },
       },
     },
   },
@@ -75,12 +84,14 @@ const mutation = new GraphQLObjectType({
         activity: { type: GraphQLNonNull(GraphQLString) },
         date: { type: GraphQLNonNull(GraphQLString) },
         duration: { type: GraphQLNonNull(GraphQLString) },
+        projectId: { type: GraphQLNonNull(GraphQLID) },
       },
       resolve(parent, args) {
         const time = new Time({
           activity: args.activity,
           date: args.date,
           duration: args.duration,
+          projectId: args.projectId,
         });
 
         return time.save();

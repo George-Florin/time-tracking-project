@@ -1,6 +1,6 @@
 import {FaCalendar, FaClock, FaBook} from "react-icons/fa";
 
-export default function TimeInfo({ time }) {
+export default function TimeInfo({ project }) {
   return (
     <>
       <h5 className="mt-5">Time details</h5>

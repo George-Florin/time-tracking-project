@@ -15,14 +15,13 @@ export default function Times() {
         <table className="table table-hover mt-3">
             <thead>
                 <tr>
-                    <th>Project</th>
                     <th>Activity</th>
                     <th>Duration</th>
                     <th>Date</th>
                 </tr>
             </thead>
             <tbody>
-                {data.times.map(time => (
+                {data.times.map((time) => (
                     <TimeTable key={time.id} time={time} />
                 ))}
             </tbody>

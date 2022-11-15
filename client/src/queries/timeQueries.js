@@ -11,4 +11,26 @@ const GET_TIMES = gql`
   }
 `;
 
-export { GET_TIMES };
+const GET_TIME = gql`
+  query getTime($projectId: ID!) {
+    time(id: $projectId) {
+      id
+      activity
+      date
+      duration
+      project {
+        id
+        title
+        description
+        times {
+          id
+          activity
+          date
+          duration
+        }
+      }
+    }
+  }
+`;
+
+export { GET_TIMES, GET_TIME };

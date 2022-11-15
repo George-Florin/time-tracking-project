@@ -6,12 +6,6 @@ const GET_PROJECTS = gql`
       id
       title
       description
-      times {
-        id
-        activity
-        date
-        duration
-      }
     }
   }
 `;
@@ -22,6 +16,12 @@ const GET_PROJECT = gql`
       id
       title
       description
+      times {
+        id
+        activity
+        date
+        duration
+      }
     }
   }
 `;

@@ -10,6 +10,9 @@ const TimeSchema = new mongoose.Schema({
   duration: {
     type: String,
   },
+  projectId: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("Time", TimeSchema);
