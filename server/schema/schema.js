@@ -17,12 +17,7 @@ const TimeType = new GraphQLObjectType({
     activity: { type: GraphQLString },
     date: { type: GraphQLString },
     duration: { type: GraphQLString },
-    project: {
-      type: ProjectType,
-      resolve(parent, args) {
-        return Project.findById(parent.projectId);
-      },
-    },
+    projectId: { type: GraphQLID },
   }),
 });
 
@@ -49,25 +44,19 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         return Project.find({});
       },
-      project: {
-        type: ProjectType,
-        args: { id: { type: GraphQLID } },
-        resolve(parent, args) {
-          return Project.findById(args.id);
-        },
+    },
+    project: {
+      type: ProjectType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return Project.findById(args.id);
       },
-      times: {
-        type: new GraphQLList(TimeType),
-        resolve(parent, args) {
-          return Time.find({ projectId });
-        },
-      },
-      time: {
-        type: TimeType,
-        args: { id: { type: GraphQLID } },
-        resolve(parent, args) {
-          return Time.findById(args.projectId);
-        },
+    },
+    times: {
+      type: new GraphQLList(TimeType),
+      args: { projectId: { type: GraphQLID } },
+      resolve(parent, args) {
+        return Time.find(args.projectId);
       },
     },
   },

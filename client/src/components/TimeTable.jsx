@@ -1,38 +1,31 @@
-import {FaTrash} from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { useMutation } from "@apollo/client";
 import { useQuery } from "@apollo/client";
 import { DELETE_TIME } from "../mutations/timeMutations";
 import { GET_TIMES } from "../queries/timeQueries";
-import { GET_PROJECT, GET_PROJECTS } from "../queries/projectQueries";
+import { GET_PROJECT } from "../queries/projectQueries";
 
-export default function TimeTable({ time }) {
+export default function TimeTable({ times, projectId }) {
   const [deleteTime] = useMutation(DELETE_TIME, {
-    variables: { id: time.id },
-    refetchQueries: [{ query: GET_TIMES}, { query: GET_PROJECTS}]
-    /*update(cache, {data: {deleteTime}}) {
-      const { times } = cache.readQuery({ query: GET_TIMES });
-      cache.writeQuery({
-        query: GET_TIMES,
-        data: { times: times.filter(time => time.id !== deleteTime.id) },
-      });
-    }*/
+    variables: { projectId },
+    refetchQueries: [{ query: GET_TIMES }, { query: GET_PROJECT }],
   });
 
-  /*const { loading, error, data } = useQuery(GET_PROJECT);
+  const { loading, error } = useQuery(GET_PROJECT);
 
   if (loading) return <p>Loading</p>;
-  if (error) return <p>Error</p>;*/
+  if (error) return <p>Error</p>;
 
   return (
     <tr>
-        <td>{time.activity}</td>
-        <td>{time.duration} hours</td>
-        <td>{time.date}</td>
-        <td>
-            <button className="btn btn-danger btn-sm" onClick={deleteTime}>
-                <FaTrash />
-            </button>
-        </td>
+      <td>{times.activity}</td>
+      <td>{times.duration} hours</td>
+      <td>{times.date}</td>
+      <td>
+        <button className="btn btn-danger btn-sm" onClick={deleteTime}>
+          <FaTrash />
+        </button>
+      </td>
     </tr>
-  )
+  );
 }

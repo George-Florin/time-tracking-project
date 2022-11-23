@@ -5,20 +5,14 @@ import { ADD_TIME } from '../mutations/timeMutations';
 import { GET_TIMES } from '../queries/timeQueries';
 
 export default function AddTimeModal() {
-  const [activity, setActivity] = useState('');
-  const [date, setDate] = useState('');
-  const [duration, setDuration] = useState('');
+  const [activity, setActivity] = useState("");
+  const [date, setDate] = useState("");
+  const [duration, setDuration] = useState("");
+  const [projectId, setProjectId] = useState("");
 
   const [addTime] = useMutation(ADD_TIME, {
-    variables: { activity, date, duration },
-    update(cache, { data: { addTime } }) {
-      const { times } = cache.readQuery({ query: GET_TIMES });
-
-      cache.writeQuery({
-        query: GET_TIMES,
-        data: { times: [...times, addTime] },
-      });
-    },
+    variables: { activity, date, duration, projectId },
+    refetchQueries: [{ query: GET_TIMES }]
   });
 
   const onSubmit = (e) => {
@@ -28,18 +22,19 @@ export default function AddTimeModal() {
       return alert('Please fill in all the required fields');
     }
 
-    addTime(activity, date, duration);
+    addTime({ variables: { activity, date, duration, projectId }});
 
-    setActivity('');
-    setDate('');
-    setDuration('');
+    setActivity("");
+    setDate("");
+    setDuration("");
+    setProjectId("");
   };
 
   return (
     <>
       <button
         type='button'
-        className='btn btn-secondary'
+        className='btn btn-secondary w-25'
         data-bs-toggle='modal'
         data-bs-target='#addTimeModal'
       >
@@ -75,7 +70,7 @@ export default function AddTimeModal() {
                   <input
                     type='text'
                     className='form-control'
-                    id='activty'
+                    id='activity'
                     value={activity}
                     onChange={(e) => setActivity(e.target.value)}
                   />

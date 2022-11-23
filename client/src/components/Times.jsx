@@ -11,7 +11,7 @@ export default function Times() {
 
   return (
     <>
-    { !loading && !error && (
+    { 
         <table className="table table-hover mt-3">
             <thead>
                 <tr>
@@ -21,12 +21,12 @@ export default function Times() {
                 </tr>
             </thead>
             <tbody>
-                {data.times.map((time) => (
-                    <TimeTable key={time.id} time={time} />
-                ))}
+              {data.times.map((time) => (
+                <TimeTable key={time.id} time={time} />
+              ))}
             </tbody>
         </table>
-    )}
+    }
     </>
   )
 }

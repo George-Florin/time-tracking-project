@@ -1,17 +1,18 @@
 import { gql } from "@apollo/client";
 
 const GET_TIMES = gql`
-  query getTimes {
-    times {
+  query getTimes($projectId: ID!) {
+    times(projectId: $projectId) {
       id
       activity
       date
       duration
+      projectId
     }
   }
 `;
 
-const GET_TIME = gql`
+/*const GET_TIME = gql`
   query getTime($projectId: ID!) {
     time(id: $projectId) {
       id
@@ -31,6 +32,6 @@ const GET_TIME = gql`
       }
     }
   }
-`;
+`;*/
 
-export { GET_TIMES, GET_TIME };
+export { GET_TIMES };

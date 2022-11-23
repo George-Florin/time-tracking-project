@@ -8,9 +8,6 @@ const ProjectSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  times: {
-    type: { type: [Time.schema], required: true },
-  },
 });
 
 module.exports = mongoose.model("Project", ProjectSchema);
