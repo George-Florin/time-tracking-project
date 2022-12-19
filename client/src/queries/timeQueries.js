@@ -14,7 +14,7 @@ const GET_TIMES = gql`
 
 /*const GET_TIME = gql`
   query getTime($projectId: ID!) {
-    time(id: $projectId) {
+    time(projectId: $projectId) {
       id
       activity
       date

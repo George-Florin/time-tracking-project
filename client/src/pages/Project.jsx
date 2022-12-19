@@ -17,7 +17,7 @@ export default function Project({ projectId }) {
     <>
       {
         <div className='mx-auto w-75 card p-5'>
-          <AddTimeModal projectId={data.projectId}/>
+          <AddTimeModal />
           <Link to='/' className='btn btn-light btn-sm w-25 d-inline ms-auto'>
             Back
           </Link>
